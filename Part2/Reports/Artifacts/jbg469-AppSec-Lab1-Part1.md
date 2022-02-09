@@ -86,5 +86,5 @@ Python 3.8.10 (default, Nov 26 2021, 20:14:08)
 [GCC 9.3.0] on linux
 Type "help", "copyright", "credits" or "license" for more information.
 >>> hex(0xffffcb28-0xffffcabc)
-'0x6c' or 108 spaces apart in the stack. 
+'0x6c' or 108 bits apart in the stack. 
 
