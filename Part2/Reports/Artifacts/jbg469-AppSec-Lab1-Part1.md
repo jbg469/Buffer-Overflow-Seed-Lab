@@ -115,4 +115,9 @@ it would without the exploit run the existing code. We want to write more than t
 00000205
 #     
 ```
-stack-L1 is a setuid program so it will run what is in the buffer, because of the badfile created by the exploit; the program will run the shellcode with root permissions. 
+stack-L1 is a setuid program 
+```
+# ls -l stack-L1                                                               
+-rwsr-xr-x 1 root nyuappsec 15908 Feb  8 13:44 stack-L1
+```
+so it will run what is in the buffer, because of the badfile created by the exploit; the program will run the shellcode with root permissions. 
