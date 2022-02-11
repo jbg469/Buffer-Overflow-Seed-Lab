@@ -1,5 +1,5 @@
 # 32 bit attack
-after typing make we see the following commands execute 
+After typing make on shellcode directory we see the following commands execute 
 ```
 gcc -m32 -z execstack -o a32.out call_shellcode.c
 gcc -z execstack -o a64.out call_shellcode.c
