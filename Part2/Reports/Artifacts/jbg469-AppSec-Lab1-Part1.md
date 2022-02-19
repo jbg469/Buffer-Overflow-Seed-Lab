@@ -1,19 +1,22 @@
-# 32 bit attack
+# Cloning repo and preparing submission directories
 In screenshot1.png , for first task date is not show as it would expose personal access token please forgive
 we succesfully show a local repo is created 
 In screenshot2 we show Reports/Artifacts succesfully created for submission. 
 In screenshots2.1-2.2 we show commands executed to turn off countermeasures
 
-# After typing make on shellcode directory as shown in screenshot3.4 we see the following commands execute 
+# Invoking the shellcode
+After typing make on shellcode directory as shown in screenshot3.4 we see the following commands execute 
 ```
 gcc -m32 -z execstack -o a32.out call_shellcode.c
 gcc -z execstack -o a64.out call_shellcode.c
 ```
 We run ./a32.out and ./a64.out nothing appears on the terminal, we type exit to return to a functional shell. as shown in screenshot3.4.1 and 3.4.2
+# Task 4 understanding the vulnerable program
+After understanding the vulnerable program we execute make command as shown in screenshot4 and we are ready to investigate.
 
-After understanding the vulnerable program we execute make command as shown in screenshot4 and we are ready to investigate
+# Launching and investigation of 32 bit attack
 
-The following is the output from our gdb commands:
+The following is the output from our gdb commands as shown in screenshots5-5.1:
 ```
 Breakpoint 1 at 0x12ad: file stack.c, line 16.
 gdb-peda$ run
@@ -128,4 +131,6 @@ stack-L1 is a setuid program
 # ls -l stack-L1                                                               
 -rwsr-xr-x 1 root nyuappsec 15908 Feb  8 13:44 stack-L1
 ```
-so it will run what is in the buffer, because of the badfile created by the exploit; the program will run the shellcode with root permissions. 
+so it will run what is in the buffer, because of the badfile created by the exploit; the program will run the shellcode with root permissions. See screenshot5.2
+
+# Task 5 launching attack on 64 bit
