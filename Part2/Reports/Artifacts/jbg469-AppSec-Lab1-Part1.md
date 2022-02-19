@@ -1,4 +1,8 @@
 # 32 bit attack
+In screenshot1.png , for first task date is not show as it would expose personal access token please forgive
+we succesfully show a local repo is created 
+In screenshot2 we show Reports/Artifacts succesfully created for submission. 
+In screenshots2.1-2.2 we show commands executed to turn off countermeasures
 After typing make on shellcode directory we see the following commands execute 
 ```
 gcc -m32 -z execstack -o a32.out call_shellcode.c
