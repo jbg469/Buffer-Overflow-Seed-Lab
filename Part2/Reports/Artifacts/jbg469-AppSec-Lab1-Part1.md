@@ -3,13 +3,16 @@ In screenshot1.png , for first task date is not show as it would expose personal
 we succesfully show a local repo is created 
 In screenshot2 we show Reports/Artifacts succesfully created for submission. 
 In screenshots2.1-2.2 we show commands executed to turn off countermeasures
-After typing make on shellcode directory we see the following commands execute 
+
+# After typing make on shellcode directory as shown in screenshot3.4 we see the following commands execute 
 ```
 gcc -m32 -z execstack -o a32.out call_shellcode.c
 gcc -z execstack -o a64.out call_shellcode.c
 ```
-The output files are visible locally but not on the github repo. 
-We run ./a32.out and ./a64.out nothing appears on the terminal, we type exit to return to a functional shell. 
+We run ./a32.out and ./a64.out nothing appears on the terminal, we type exit to return to a functional shell. as shown in screenshot3.4.1 and 3.4.2
+
+After understanding the vulnerable program we execute make command as shown in screenshot4 and we are ready to investigate
+
 The following is the output from our gdb commands:
 ```
 Breakpoint 1 at 0x12ad: file stack.c, line 16.
