@@ -156,6 +156,6 @@ start = 90   # Change this number
 Decide the return address value 
 and put it somewhere in the payload
 #$rbp - &buffer = 208
-ret =  0x7fffffffd890 + 160 account for data added by gdb 
+ret =  0x7fffffffd890 + 160 # tried 100, 208 didn't work 150 and 160 did
 offset = 208 + 8
 ```
