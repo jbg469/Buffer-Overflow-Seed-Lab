@@ -133,4 +133,29 @@ stack-L1 is a setuid program
 ```
 so it will run what is in the buffer, because of the badfile created by the exploit; the program will run the shellcode with root permissions. See screenshot5.2
 
-# Task 5 launching attack on 64 bit
+# Launching attack on 64 bit
+First we must conduct an investgation on stack-L3-dbg
+Using gdb we can see that $rbp and &buffer for stack-L3_dbg is the following.
+```
+db-peda$ p $rbp
+$1 = (void *) 0x7fffffffd960
+
+gdb-peda$ p &buffer
+$3 = (char (*)[200]) 0x7fffffffd890
+gdb-peda$ 
+
+```
+See screenshot6-6.1
+
+In our exploit-64.py we change the shellcode to the 64 bit version provided in the shellcode directory 
+as seen in screenshot6.2 we find the offset of rbp and &buffer to be d0 or 208 bytes
+
+For 64 bit we must put the shellcode before the buffer because  strcpy() will terminate due to 64 bit adress leading zeroes.Since we should start before the bufffer, &buffer is 0x7fffffffd890 adress in little endian format is actually stored as 90 d8 ff ff ff 7f. To start the exploit lets try starting at 90
+```
+start = 90   # Change this number 
+Decide the return address value 
+and put it somewhere in the payload
+#$rbp - &buffer = 208
+ret =  0x7fffffffd890 + 160 account for data added by gdb 
+offset = 208 + 8
+```
