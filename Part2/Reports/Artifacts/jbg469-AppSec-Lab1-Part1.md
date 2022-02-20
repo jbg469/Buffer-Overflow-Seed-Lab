@@ -159,3 +159,7 @@ and put it somewhere in the payload
 ret =  0x7fffffffd890 + 160 # tried 100, 208 didn't work 150 and 160 did
 offset = 208 + 8
 ```
+when we add 100 to ret we get segmentation faul 
+when we add 208 we get illegal operation 
+150 is good 
+160 is good 
