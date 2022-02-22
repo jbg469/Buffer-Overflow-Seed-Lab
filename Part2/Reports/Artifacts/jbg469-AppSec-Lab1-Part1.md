@@ -191,3 +191,6 @@ exploit works with countermeasures turned on see screenshot7.2.
 In screenshot8 we see we turn on adress randomization 
 After 73 minutes we defeat it with exploit-32.py See screenshot8.1
 # Experimenting with Other Countermeasures
+As we can see in screenshot 9 we turn on AR and exploit works
+In screenshot9.1 we see that compiling stack.c without the flag exploit fails.
+In screenshot9.2 we see that compiling call_shellcode.c without executable stack causes segmentation fault
