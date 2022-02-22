@@ -188,3 +188,6 @@ we rm badfile from previous exploits and run ./exploit-32.py then run ./stackL1.
 exploit works with countermeasures turned on see screenshot7.2.
 
 # Defeating Address Randomization
+In screenshot8 we see we turn on adress randomization 
+After 73 minutes we defeat it with exploit-32.py See screenshot8.1
+# Experimenting with Other Countermeasures
