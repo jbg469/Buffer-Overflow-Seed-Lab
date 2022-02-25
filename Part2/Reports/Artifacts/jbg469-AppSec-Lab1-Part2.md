@@ -9,7 +9,7 @@ In screenshot2.4-2.6 we succesfully buld docker image with given YAML file and r
 In screenshot2.7 we can see succesfully output hello on 32bit server echo hello | nc 10.9.0.5
 
 In screenshot3.1 we successfully crash the program by passing echo %s%s%s%s | nc 10.9.0.5
-this works because since the innput string acts as a reference to string pointers. The program will try to interpret every %s as a string pointer from the buffer, eventually reachning an invalid adress and causing the program to crash. 
+this works because since the input string acts as a reference to string pointers. The program will try to interpret every %s as a string pointer from the buffer, eventually reachning an invalid adress and causing the program to crash. 
 
 
 
