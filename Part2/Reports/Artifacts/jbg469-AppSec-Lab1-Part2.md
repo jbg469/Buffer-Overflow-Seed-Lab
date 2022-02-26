@@ -1,16 +1,29 @@
 # Format String Lab
 # Environment set up 
 In screenshot2.1 we see we turn off adress randomization.
+<img width="1036" alt="jbg469-screenshot2 1" src="https://user-images.githubusercontent.com/72175659/155854648-327a7475-2ae4-4ad7-96a2-d2d8d452586c.png">
 
 In screnshot 2.2-2.3 we successfully compile server.c and copy binaries to specified folder as well as run the make install command 
+<img width="1038" alt="jbg469-screenshot2 2" src="https://user-images.githubusercontent.com/72175659/155854657-f125699b-7415-4d27-afdd-9ebd7d2895fc.png">
+<img width="1036" alt="jbg469-screenshot2 3" src="https://user-images.githubusercontent.com/72175659/155854659-58f9d8be-5a94-4ec8-8b05-d154a70d261a.png">
 
 In screenshot2.4-2.6 we succesfully buld docker image with given YAML file and run up command to start 32bit and 64 bit version. We are also able to succesfully run a shell within the docker image running docker exec
+<img width="1032" alt="jbg469-screenshot2 4" src="https://user-images.githubusercontent.com/72175659/155854661-4c6f0e2e-ee21-4bd9-a5ae-fa03daa62a84.png">
+<img width="1037" alt="jbg469-screenshot2 5" src="https://user-images.githubusercontent.com/72175659/155854664-f10be278-5c70-43af-beac-5bcca1c60b99.png">
+<img width="1031" alt="jbg469-screenshot2 6" src="https://user-images.githubusercontent.com/72175659/155854679-778efd56-cbb0-40bd-a354-c5f97d344921.png">
 
 In screenshot2.7 we can see succesfully output hello on 32bit server echo hello | nc 10.9.0.5
+<img width="1034" alt="jbg469-screenshot2 7" src="https://user-images.githubusercontent.com/72175659/155854693-4207c340-5d19-4001-b163-1814ba6c02b6.png">
 
 In screenshot3.1 we successfully crash the program by passing echo %s%s%s%s | nc 10.9.0.5
 this works because since the input string acts as a reference to string pointers. The program will try to interpret every %s as a string pointer from the buffer, eventually reachning an invalid adress and causing the program to crash. 
+<img width="1030" alt="jbg469-screenshot3 1" src="https://user-images.githubusercontent.com/72175659/155854698-b15bdf4e-d2ab-4417-864f-27ca8bdc00c8.png">
 
 
+In screeshot 4.A we see that we are able to print the servers memory this was done by altering the build-string.py file to experiment with the number of of "%.8x"
+that needed to be printed out to see our @@@@ (40404040 in hex) in memory. We incremented from the default 12 in multiples of 10 to 70 until we finally see our value in memory. We needed 63 "%.8x" to see our input.
 
+<img width="882" alt="jbg469-screenshot4 A" src="https://user-images.githubusercontent.com/72175659/155854722-1bf1eb19-d38c-4fc3-ac90-77cc3ba61701.png">
 
+In screenshot4B we are able to see our secret message by editing the build-string file to encode the secret message memory adress in the beginning of the content array. We can load the adress heap content into the stack in little endian format  then use %s after 63 %.8x specifiers to print the value from the memory adress we we loaded into the stack. 
+<img width="855" alt="jbg469-screenshot4B" src="https://user-images.githubusercontent.com/72175659/155855446-2b7eaf8f-6b40-4e85-ba8f-c89e6178d45d.png">
