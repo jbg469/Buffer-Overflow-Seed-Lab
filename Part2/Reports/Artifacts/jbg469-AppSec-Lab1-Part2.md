@@ -25,7 +25,7 @@ that needed to be printed out to see our @@@@ (40404040 in hex) in memory. We in
 
 <img width="882" alt="jbg469-screenshot4 A" src="https://user-images.githubusercontent.com/72175659/155854722-1bf1eb19-d38c-4fc3-ac90-77cc3ba61701.png">
 
-In screenshot4B we are able to see our secret message by editing the build-string.py file to produce a badfile that produced a string which encodes the secret message memory adress in the beginning of the content array. We can load the adress heap content into the stack in little endian format  then use %s after 63 %.8x specifiers to print the value from the memory adress we we loaded into the stack. 
+In screenshot4B we are able to see our secret message by editing the build-string.py file to produce a badfile that produced a string which encodes the secret message memory adress in the beginning of the content array. We can load the adress heap content into the stack in little endian format  then use %s after 63 %.8x specifiers to print the value from the memory adress we loaded into the stack. 
 <img width="855" alt="jbg469-screenshot4B" src="https://user-images.githubusercontent.com/72175659/155855446-2b7eaf8f-6b40-4e85-ba8f-c89e6178d45d.png">
  
  In screenshot 5A we were able to change the target values adress using the %n specifier to change the value we loaded into the stack in the badfile after printing 63 "%.8x"'s . 
