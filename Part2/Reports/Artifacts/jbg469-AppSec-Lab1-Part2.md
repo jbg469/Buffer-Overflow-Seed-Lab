@@ -35,8 +35,16 @@ In screenshot 5B our mulitplier of 325 (outputs a 325-long byte stream.) and com
 <img width="1034" alt="jbg469-screenshot5B" src="https://user-images.githubusercontent.com/72175659/155856274-c0d5f569-7021-4e7a-8816-fbd208f5a5b2.png">
 In screenshot 5c we are able to change the target adress to 0xAABBCCDD we do this by loading two target adresses in the stack and using the %hn specifier which modifies two byte memory space. We put "@@@@" between the adresses. The second target adress is the target adress from the server output+2, we load this adress into the stack first. As sepcified in the textbook its essential to place the @@@@ string in between to prevent the same value written to the first adress from being written to the second adress. We figure out offset1 by subtracting the adress we output in task 3A to AABB this will give us how many %x to print out to reach our target, with experimenation it was found that we needed to add 217 as we got and adress where the first four bytes subtracted from AABB was 217. This 217 byte offset is to account for the extra data @@@@ allows us to write.Offset 2 is calculated by our target 0xCCDD - 0xAABB.
 Our format string is then constructed to allow us to write to 2 adresses. We change  content[12:12+len(fmt)] = fmt to place the format string after the adresses.
+```
+s = "%x" * 62 + "%." + str(offset1) + "x" + "%hn"  + "%." + str(offset2) + "x" + "%hn" 
+```
+This format string ensures we write into two adresses instead of 1
+
 <img width="1082" alt="jbg469-screenshot5C" src="https://user-images.githubusercontent.com/72175659/155862004-ea22350a-b279-49ab-84ab-124b2519e2a3.png">
 
 # Inject Malicious Code into the Server Program
-Question 1: What are the memory addresses at the locations marked by 2 and 3?
+Question 1: What are the memory addresses at the locations marked by 2 and 3? 
+2:0x080e5068
+3:0xffffd160
 Question 2: How many %x format specifiers do we need to move the format string argument pointer to 3?
+63
