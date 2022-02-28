@@ -180,7 +180,8 @@ as seen in screenshot6.2 we find the offset of rbp and &buffer to be d0 or 208 b
 
 <img width="991" alt="jbg469-screenshot6 2" src="https://user-images.githubusercontent.com/72175659/155915560-77d4c67c-6a36-4941-988d-33f288cc942d.png">
 
-For 64 bit we must put the shellcode before the buffer because  strcpy() will terminate due to 64 bit adress leading zeroes.Since we should start before the bufffer, &buffer is 0x7fffffffd890 adress in little endian format is actually stored as 90 d8 ff ff ff 7f. To start the exploit lets try starting at 90
+For 64 bit we must put the shellcode at the start becuase zeros will terminate if strpcy() is used in the case to 64 bit adress leading zeroes. Since we should place our shellcode at the beggining of bufffer setting the return adress to  &buffer or  0x7fffffffd890 +160  should land us somewhere in the Nopsled. 
+
 ```
 start = 90   # Change this number 
 Decide the return address value 
@@ -189,10 +190,10 @@ and put it somewhere in the payload
 ret =  0x7fffffffd890 + 160 # tried 100, 208 didn't work 150 and 160 did
 offset = 208 + 8
 ```
-when we add 100 to ret we get segmentation faul 
-when we add 208 we get illegal operation 
-150 is good 
-160 is good 
+when we add 100 to ret we get segmentation fault (not far enough into the payload) 
+when we add 208 we get illegal operation  (too far away)
+150 is good (in range of NOPS)
+160 is good (in range of NOPS)
 In screenshot6.3 we see successful 64bit exploit
 
 <img width="1032" alt="jbg469-screenshot6 3" src="https://user-images.githubusercontent.com/72175659/155915637-b7492677-2cc0-4b31-a4fa-3b6fdb178d19.png">
