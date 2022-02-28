@@ -68,5 +68,37 @@ We see that after a successful exploit was carried out we get a reverse shell wi
 Our format string was constructed in a similar approach to test 3.C, we need to use %hn specifier to write and adress in 2 segments with a "@@@@" string in he middle to prevent the over writing in our adress segments.
 
 The exploit in our file is constructed to store the malicious code in the buffer which would be in number three in this figure with adress 
-![image](https://user-images.githubusercontent.com/72175659/155907573-b28bb85e-d17a-438c-aa16-24bb5c83c185.png) 
-We essentially want to change the return in the figure  (adress of the frame in our server program output +4, 0xffffd708+4)  to  0XFFFFDCF4, which is the adress of the buffer+1300) so that we are redirected to our NOP sled and then redirected to our shellcode exploit. We add 1300 because we place our shellcode at the end of our content[], since the shellcode is less than 200 bytes in lenght the adress of the buffer+1300 gives us a successful nop sled.
+![image](https://user-images.githubusercontent.com/72175659/155907573-b28bb85e-d17a-438c-aa16-24bb5c83c185.png)
+
+We essentially want to change the return in the figure  (adress of the frame in our server program output +4, 0xffffd708+4)  to  0XFFFFDCF4, which is the adress of the buffer+1300) so that we are redirected to our NOP sled and then redirected to our shellcode exploit. We add 1300 because we place our shellcode at the end of our content[], since the shellcode is less than 200 bytes in lenght the adress of the buffer+1300 gives us a successful nop sled. See exploit.py in attack-code.
+
+## Attacking the 64-bit Server Program
+ Our format string in this approach is slightly different as it now has to write 4 2 byte segments 
+ For this exploit first we had to experiment on using build_string64.to find or offse of %x of 64bit target. 
+<img width="1748" alt="Screen Shot 2022-02-27 at 1 03 19 PM" src="https://user-images.githubusercontent.com/72175659/155910027-c5c205c8-f775-4529-a452-6c14e32f3a88.png">
+it was found to be 219.
+
+The format string that worked for this exploit was 
+```
+s = "%x" * 212 + "%." + str(offset1) + "x" + "%hn"  + "%." + str(offset2) + "x" + "%hn"+ "%." + str(offset3) + "x" + "%hn"+ "%." + str(offset4) + "x" + "%hn"
+
+```
+offsets
+```
+offset1= 0xFFFD - 0x0607 + 8 
+offset2 = 0x7FFF # this should land in the NOP 
+offset3= 0xFFFF- 0x7FFF
+offset4 = 0xE4C0 + 1
+```
+were found via experimentation by editing the target value adress in the server output this was to change to return adress 0x00007fffffffe0e0 + 8 to 0x00007FFFFFFFE4C0 so that our shellcode would execute. In this case 64bit  printf() parses the format string, it will stop the parsing when it sees a zero to solve for this we place our adresses at the end of the content[] and our shellcode at the middle of the begnning we end with a payload thats formatted as 
+[format string][padding to align address segments][NOP sled][shellcode][address segments]
+
+This means our shellcode is somewhere in the middle and we need to land in the NOP Sled slightly before it and we avoid printf() from terminating. 
+
+<img width="1780" alt="jbg469-screenshot7 2" src="https://user-images.githubusercontent.com/72175659/155914082-f1feccf8-7b03-4343-a0b3-0825b6518c80.png">
+
+we successfully got a reverse shell with root access for this method.
+
+
+
+
