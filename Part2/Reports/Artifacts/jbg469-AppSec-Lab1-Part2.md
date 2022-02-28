@@ -37,14 +37,36 @@ In screenshot 5c we are able to change the target adress to 0xAABBCCDD we do thi
 Our format string is then constructed to allow us to write to 2 adresses. We change  content[12:12+len(fmt)] = fmt to place the format string after the adresses.
 ```
 s = "%x" * 62 + "%." + str(offset1) + "x" + "%hn"  + "%." + str(offset2) + "x" + "%hn" 
+
 ```
 This format string ensures we write into two adresses instead of 1
 
 <img width="1082" alt="jbg469-screenshot5C" src="https://user-images.githubusercontent.com/72175659/155862004-ea22350a-b279-49ab-84ab-124b2519e2a3.png">
 
 # Inject Malicious Code into the Server Program
+
+## 6.1 Understanding the Stack Layout
 Question 1: What are the memory addresses at the locations marked by 2 and 3? 
-2:0x080e5068
-3:0xffffd160
+
+
+2:0xffffd088 or the framepointer 
+3:0xffffd708+4 our target or the buffer + 1300 (shellcode + array)
+
 Question 2: How many %x format specifiers do we need to move the format string argument pointer to 3?
-63
+63 based on the previous tasks in 4a if we add an extra adress or a string like @@@@ it becomes less though to account for the extra bytes.
+
+## 6.2 Shellcode
+In this screenshot we see how we changed the shellcode to run the command to execute a reverse shell
+<img width="771" alt="Screen Shot 2022-02-27 at 7 22 57 PM" src="https://user-images.githubusercontent.com/72175659/155906541-04b74291-0b8f-452e-bae9-eabc1688fb1c.png">
+
+
+## 6.3 Reverse shell 32 bit
+In this screenshot we run necessary measures to get a reverse shell to pop out if our attack is succesful
+<img width="1784" alt="jbg-screenshot 6 3" src="https://user-images.githubusercontent.com/72175659/155906790-68ffe2c2-e07e-4855-8c8e-038b6124f277.png">
+We see that after a successful exploit was carried out we get a reverse shell with root access which means our exploit was successful.
+<img width="1783" alt="jbg469-screenshot6 4" src="https://user-images.githubusercontent.com/72175659/155906956-c4dde412-89a2-4d13-a9e2-e16523db3116.png">
+Our format string was constructed in a similar approach to test 3.C, we need to use %hn specifier to write and adress in 2 segments with a "@@@@" string in he middle to prevent the over writing in our adress segments.
+
+The exploit in our file is constructed to store the malicious code in the buffer which would be in number three in this figure with adress 
+![image](https://user-images.githubusercontent.com/72175659/155907573-b28bb85e-d17a-438c-aa16-24bb5c83c185.png) 
+We essentially want to change the return in the figure  (adress of the frame in our server program output +4, 0xffffd708+4)  to  0XFFFFDCF4, which is the adress of the buffer+1300) so that we are redirected to our NOP sled and then redirected to our shellcode exploit. We add 1300 because we place our shellcode at the end of our content[], since the shellcode is less than 200 bytes in lenght the adress of the buffer+1300 gives us a successful nop sled.
