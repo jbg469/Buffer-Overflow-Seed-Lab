@@ -251,3 +251,5 @@ In screenshot9.2 we see that compiling call_shellcode.c without executable stack
 
 <img width="1038" alt="jbg469-screenshot9 2" src="https://user-images.githubusercontent.com/72175659/155915910-b6f41d71-d9ad-49c4-9d38-469a937837bb.png">
 
+The edited Makefile for both cases have been added to the repo
+
