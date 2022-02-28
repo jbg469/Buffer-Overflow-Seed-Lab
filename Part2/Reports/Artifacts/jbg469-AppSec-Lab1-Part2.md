@@ -99,6 +99,17 @@ This means our shellcode is somewhere in the middle and we need to land in the N
 
 we successfully got a reverse shell with root access for this method.
 
+#  Fixing the Problem
+
+Here we see we fix the server.c program by placing an %s specifier in it. When we compile we no longer see the error
+
+
+<img width="1133" alt="jbg469-screenshot8" src="https://user-images.githubusercontent.com/72175659/155921790-88c5c850-7fdd-4a83-9fba-15b49a74c85d.png">
 
 
 
+<img width="751" alt="jbg469-screenshot8 3" src="https://user-images.githubusercontent.com/72175659/155922171-5c2b1ce7-57f9-42be-85ea-e9df0b2db56b.png">
+
+We can see now that the format string from our badfile is printed as a regular string and doesn't execute any code. 
+
+<img width="1777" alt="jbg469-screenshot8 2" src="https://user-images.githubusercontent.com/72175659/155922360-ceba3974-813f-4e30-91cd-cae11ec40887.png">
